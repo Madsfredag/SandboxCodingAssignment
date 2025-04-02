@@ -11,18 +11,20 @@ def fuzzy_match_peps(query: str) -> PEPMatchResponse:
     results = []
 
     for pep in all_peps:
-        score = fuzz.ratio(query.lower(), pep.name.lower())
+        score = fuzz.partial_ratio(query.lower(), pep.name.lower())
         logging.info(f"Match '{query}' vs '{pep.name}' → score: {score}")
-        if score >= 40:  # lowered threshold
+        if score >= 50:
             results.append(PEPMatch(
                 name=pep.name,
                 score=score,
-                _links={"self": {"href": f"/pep/search?name={pep.name}"}}
+                _links={"self": {"href": f"/pep/{pep.id}"}}
             ))
 
     db.close()
 
+    top_matches = sorted(results, key=lambda r: r.score, reverse=True)[:10]
+
     return PEPMatchResponse(
         _links={"self": {"href": f"/pep/search?name={query}"}},
-        matches=sorted(results, key=lambda r: r.score, reverse=True)
+        matches=top_matches
     )
