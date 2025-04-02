@@ -1,0 +1,26 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# macOS / Windows system files
+.DS_Store
+Thumbs.db
+
+# Python env files
+*.env
+
+# SQLite database (if you use it as a file)
+*.db
+
+# Pytest cache
+.pytest_cache/
