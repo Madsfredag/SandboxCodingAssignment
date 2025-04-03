@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict
 from pydantic import BaseModel, Field
 
 class PEPMatch(BaseModel):
@@ -9,7 +9,7 @@ class PEPMatch(BaseModel):
     class Config:
         populate_by_name = True
         json_encoders = {
-            Dict: lambda v: v  # ensures dicts are preserved as-is
+            Dict: lambda v: v 
         }
 
 class PEPMatchResponse(BaseModel):

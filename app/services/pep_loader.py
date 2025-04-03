@@ -21,10 +21,8 @@ def load_peps_from_excel(file_path: str = "pep_list.xlsx"):
     
     df = df.dropna(subset=[df.columns[1], df.columns[2]])
 
-    # Build full name
     df["full_name"] = df[df.columns[2]].astype(str).str.strip() + " " + df[df.columns[1]].astype(str).str.strip()
 
-    # Parse and extract date only
     df["birth_date"] = pd.to_datetime(df[df.columns[4]], dayfirst=True, errors="coerce").dt.date
     df["added_date"] = pd.to_datetime(df[df.columns[5]], dayfirst=True, errors="coerce").dt.date
 
