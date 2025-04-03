@@ -5,10 +5,19 @@ from app.core.config import setup_logging
 from app.db.database import init_db
 from app.services.pep_loader import load_peps_from_excel
 from app.schemas.error import ProblemDetail
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="PEP Checker API",
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(router)
@@ -18,6 +27,7 @@ setup_logging()
 def startup():
     init_db()
     load_peps_from_excel()
+
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):

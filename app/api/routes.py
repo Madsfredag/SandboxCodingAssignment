@@ -20,11 +20,11 @@ async def get_pep(pep_id: int):
         raise HTTPException(status_code=404, detail="PEP not found")
 
     return {
-        "id": pep.id,
-        "name": pep.name,
-        "_links": {
-            "self": {"href": f"/pep/{pep.id}"}
-        }
+    "id": pep.id,
+    "name": pep.name,
+    "birth_date": pep.birth_date,
+    "added_date": pep.added_date,
+    "_links": {"self": {"href": f"/pep/{pep.id}"}}
     }
 
 @router.get("/pep/all")

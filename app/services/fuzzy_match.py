@@ -9,6 +9,7 @@ def fuzzy_match_peps(query: str) -> PEPMatchResponse:
     db: Session = SessionLocal()
     all_peps = db.query(PEP).all()
     results = []
+    print("Total PEPs in DB:", len(all_peps))
 
     for pep in all_peps:
         score = fuzz.partial_ratio(query.lower(), pep.name.lower())
@@ -17,14 +18,14 @@ def fuzzy_match_peps(query: str) -> PEPMatchResponse:
             results.append(PEPMatch(
                 name=pep.name,
                 score=score,
-                _links={"self": {"href": f"/pep/{pep.id}"}}
+                links={"self": {"href": f"/pep/{pep.id}"}}
             ))
 
     db.close()
 
     top_matches = sorted(results, key=lambda r: r.score, reverse=True)[:10]
-
+    print("Returning matches:", top_matches)
     return PEPMatchResponse(
-        _links={"self": {"href": f"/pep/search?name={query}"}},
+        links={"self": {"href": f"/pep/search?name={query}"}},
         matches=top_matches
     )
